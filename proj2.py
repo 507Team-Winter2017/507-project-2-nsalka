@@ -9,7 +9,7 @@ print('New York Times -- First 10 Story Headings\n')
 ny_url="http://www.nytimes.com"
 ny_req=requests.get(ny_url)
 ny_html=BeautifulSoup(ny_req.text,"html.parser")
-ny_tags=ny_html.find_all(class_="story-heading",limit=10)
+ny_tags=ny_html.find_all("h2",class_="story-heading",limit=10)
 
 for tag in ny_tags:
 	if tag.a:
@@ -58,7 +58,7 @@ directory=["/directory?field_person_firstname_value=&field_person_lastname_value
 email_list=[]
 for page in directory:
 	um_url="https://www.si.umich.edu"+page
-	um_req=requests.get(um_url)
+	um_req=requests.get(um_url,headers={'User-Agent': 'SI_CLASS'})
 	um_html=BeautifulSoup(um_req.text,"html.parser")
 	um_tags=um_html.find_all("a",string="Contact Details")
 
@@ -69,7 +69,7 @@ for page in directory:
 
 	for link in um_links:
 		contact_url="https://www.si.umich.edu"+link
-		contact_req=requests.get(contact_url)
+		contact_req=requests.get(contact_url,headers={'User-Agent': 'SI_CLASS'})
 		contact_html=BeautifulSoup(contact_req.text,"html.parser")
 		contact_tags=contact_html.find_all(class_="field-name-field-person-email")
 		for tag in contact_tags:
